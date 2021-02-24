@@ -1,6 +1,6 @@
 from flask import Flask, render_template, json
 from variables import tables
-import api
+import util
 
 app = Flask(__name__)
 
@@ -11,7 +11,7 @@ def index():
 
 @app.route("/<board_id>/board-data")
 def get_board_data(board_id):
-    return json.dumps(api.get_board_dict(board_id))
+    return json.dumps(util.get_board_dict(board_id))
 
 if __name__ == '__main__':
     app.run()
