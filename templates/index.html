@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Proman</title>
+    <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
     <h1>Proman</h1>
  {% block content %}
 
     {% endblock %}
+
+    {% include "display_table.html" %}
+
+
+<script type="text/javascript" src="/static/table_display.js"></script>
 </body>
 </html>

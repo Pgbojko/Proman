@@ -1,14 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, json
 from variables import tables
+import api
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
+@app.route("/<board_id>/board-data")
+def get_board_data(board_id):
+    return json.dumps(api.get_board_dict(board_id))
 
 if __name__ == '__main__':
     app.run()

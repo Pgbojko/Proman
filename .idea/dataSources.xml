@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Proman@localhost" uuid="95ad8e94-47a8-4939-a797-e6b971f716ce">
+    <data-source source="LOCAL" name="proman@localhost" uuid="b06d21ef-bedc-4228-b313-f1746efd9965">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/Proman</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/proman</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
