@@ -1,68 +1,173 @@
 "use strict"
 
-// const GET_DATA_URL = `/${boardId}/board-data`;
 const BOARD_TITLE_KEY = "board title";
 const COLUMNS_KEY = "columns";
 const COLUMN_NAME_KEY = "column name";
+const CARD_TITLE_KEY = "card title";
+const CARDS_KEY = "cards";
+const MESSAGE_KEY = "message";
 
-const boardContainer = document.querySelector(".table-container");
-const boardTitle = document.querySelector(".table-title");
-const column_Container = document.querySelector(".column-container");
+const boardContainer = document.querySelector(".board-container");
+const boardTitle = document.querySelector(".board-title");
+const columnContainer = document.querySelector(".column-container");
 
-let boardData;
+let boardId;
 
-const loadBoard = function () {
-    let boardId = boardContainer.dataset.baordId
-    getBoardData(`/${boardId}/board-data`)
 
-}
-
-const getBoardData = function (url) {
+const getBoardData = function () {
+    const url = `/${boardId}/board-data`
     fetch(url, {
         method: "GET",
         credentials: "same-origin"
     })
     .then(response => response.json())
-    .then(json_response => displayBoard(json_response));
+    .then(json_response => loadBoard(json_response));
 }
+
+
+const loadBoard = function (boardObject) {
+    displayBoard(boardObject)
+    setListeners();
+}
+
 
 const displayBoard = function (boardObject) {
-    boardData = boardObject;
     boardTitle.textContent = boardObject[BOARD_TITLE_KEY];
-    createColumnDiv(boardObject[COLUMNS_KEY]);
-    // boardObject[COLUMNS_KEY].forEach(col => createColumnDiv(col[COLUMN_NAME_KEY]));
-
+    createColumns(boardObject[COLUMNS_KEY])
+    // createColumn(boardObject[COLUMNS_KEY]);
 }
 
-const createColumnDiv = function (columns_list) {
-    let column_div = "";
 
-    columns_list.forEach(function (column) {
-        column_div += `
-        <div class="column-header" id="${column[COLUMN_NAME_KEY]}">
-            <h2>${column[COLUMN_NAME_KEY]}</h2>
-        </div>`
+const createColumns = function (columnsList) {
+    addColBtn()
+    addColumnContainer(columnsList);
+    addColumnHeader(columnsList, 0);
+    addCardsToColumn(columnsList);
+}
+
+
+const addColBtn = function () {
+    let columnEL = `    
+    <div class="add-col-div">
+        <button class="add-col-btn"><img src="/static/images/add_button.png"></button>
+    </div>`
+    columnContainer.insertAdjacentHTML("afterbegin", columnEL);
+}
+
+
+const addColumnContainer = function (columnList) {
+    const addColDiv = document.querySelector(".add-col-div");
+    let columnEl = "";
+
+    for(let i = 0; i < columnList.length; i++) {
+        columnEl += `<div name="column" class="column"></div>`
+    }
+    addColDiv.insertAdjacentHTML("beforebegin", columnEl);
+}
+
+
+const addColumnHeader = function (columnList, firstIndex) {
+    const columnEls = document.querySelectorAll(".column");
+
+    columnList.forEach(column => {
+        let headerEl = `
+            <div class="column-header" id="${column[COLUMN_NAME_KEY]}">
+                <h2>${column[COLUMN_NAME_KEY]}</h2>
+            </div>`
+
+        columnEls[firstIndex].insertAdjacentHTML("afterbegin", headerEl);
+        firstIndex++;
     })
-     column_Container.insertAdjacentHTML("afterbegin", column_div);
 }
 
-// const get_board_data = function () {
-//     let boardId = boardContainer.dataset.baordId
-//     fetch(`/${boardId}/board-data`, {
-//             method: 'GET',
-//             credentials: 'same-origin'
-//         })
-//     .then(response => response.json())
-//     .then(function (json_response) {
-//         board_data = json_response;
-//         console.log(board_data);
-//         });
-// }
 
-// const display_board = function () {
-//     board_data = get_board_data()
-//     boardTitle.textContent = board_data[BORD_TITLE_KEY];
+const addCardsToColumn = function (columnList) {
+    let cardEls;
+    let i = 0;
+    const columnEls = document.querySelectorAll(".column");
+
+    columnList.forEach(column => {
+        cardEls = "";
+        column[CARDS_KEY].forEach(function (card) {
+            cardEls += `
+            <div name="card" class="card">
+                <p>${card[CARD_TITLE_KEY]}</p>
+            </div>`
+        })
+        columnEls[i].insertAdjacentHTML("beforeend", cardEls);
+        i++;
+    })
+}
+
+
+// const createColumn = function (columnsList) {
+//     let columnDOM = "";
 //
+//     columnsList.forEach(function (column) {
+//         columnDOM += `
+//         <div name="column" class="column">
+//             <div class="column-header" id="${column[COLUMN_NAME_KEY]}">
+//                 <h2>${column[COLUMN_NAME_KEY]}</h2>
+//             </div>`
+//
+//         column[CARDS_KEY].forEach(function (card) {
+//             columnDOM += `
+//             <div name="card" class="card">
+//                 <p>${card[CARD_TITLE_KEY]}</p>
+//             </div>`
+//         })
+//         columnDOM += `</div>`
+//     })
+//     columnDOM += `
+//         <div>
+//             <button class="add-col-btn"><img src="/static/images/add_button.png"></button>
+//         </div>`
+//      columnContainer.insertAdjacentHTML("afterbegin", columnDOM);
 // }
 
-loadBoard()
+
+const setListeners = function () {
+    addColumnListener()
+}
+
+
+const addColumnListener = () => {
+        const addColumnBtn = document.querySelectorAll(".add-col-btn");
+        onClickListener(addColumnBtn, sendNewColData);
+    }
+
+
+const onClickListener = function (btnEls, actionToPerform) {
+    btnEls.forEach(el => el.addEventListener('click', actionToPerform));
+}
+
+
+const sendNewColData = function () {
+    let dataToSend = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+                },
+            body: JSON.stringify({
+                "board_id": boardId,
+                "column_name": "any string"
+                })
+        }
+    fetch('/add-new-column', dataToSend)
+     .then( response => response.json())
+        .then(data => {
+            const columnELs = document.querySelectorAll(".column")
+            console.log(data[MESSAGE_KEY]);
+            addColumnContainer(data[COLUMNS_KEY])
+            addColumnHeader(data[COLUMNS_KEY], columnELs.length)
+        });
+}
+
+
+function init () {
+    boardId = boardContainer.dataset.baordId;
+    getBoardData();
+}
+
+
+init()

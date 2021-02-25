@@ -50,3 +50,42 @@ def get_all_column_cards(cursor: RealDictCursor, board_id, col_name):
         "col_name": f"{col_name}"
     })
     return cursor.fetchall()
+
+@connection_handler.connection_handler
+def add_new_column(cursor: RealDictCursor, column_name):
+    cursor.execute("""
+        INSERT INTO columns(column_name)
+        VALUES(%(column_name)s);
+    """,
+    {"column_name": f"{column_name}"})
+
+@connection_handler.connection_handler
+def get_col_ids_by_board_id(cursor: RealDictCursor, board_id):
+    cursor.execute("""
+        SELECT *
+        FROM board_columns bc
+        WHERE bc.board_id = %(board_id)s;
+    """,
+    {"board_id": f"{board_id}"})
+    return cursor.fetchall()
+
+@connection_handler.connection_handler
+def get_col_id_by_name(cursor: RealDictCursor, col_name):
+    cursor.execute("""
+        SELECT c.id
+        FROM columns c
+        WHERE c.column_name = %(col_name)s
+    """,
+    {"col_name": f"{col_name}"})
+    return cursor.fetchone()
+
+@connection_handler.connection_handler
+def link_col_to_board(cursor: RealDictCursor, board_id, col_id):
+    cursor.execute("""
+        INSERT INTO board_columns(board_id, column_id)
+        VALUES (%(board_id)s, %(col_id)s)
+    """,
+    {
+        "board_id": f"{board_id}",
+        "col_id": f"{col_id}"
+    })
