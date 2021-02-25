@@ -27,9 +27,9 @@ def add_new_col_to_db(board_id, col_name):
 
     if not existing_board_col_connection(board_id, col_id):
         data_manager.link_col_to_board(board_id, col_id)
-        return f"Column \"{col_name}\" has been added successfully"
+        return True, f"Column \"{col_name}\" has been added successfully"
     else:
-        return f"Column \"{col_name}\" already exists"
+        return False, f"Column \"{col_name}\" already exists"
 
 
 def existing_col_names(col_name):

@@ -6,6 +6,7 @@ const COLUMN_NAME_KEY = "column name";
 const CARD_TITLE_KEY = "card title";
 const CARDS_KEY = "cards";
 const MESSAGE_KEY = "message";
+const COLUMN_ADDED = "added";
 
 const boardContainer = document.querySelector(".board-container");
 const boardTitle = document.querySelector(".board-title");
@@ -156,10 +157,14 @@ const sendNewColData = function () {
     fetch('/add-new-column', dataToSend)
      .then( response => response.json())
         .then(data => {
-            const columnELs = document.querySelectorAll(".column")
-            console.log(data[MESSAGE_KEY]);
-            addColumnContainer(data[COLUMNS_KEY])
-            addColumnHeader(data[COLUMNS_KEY], columnELs.length)
+            if (data[COLUMN_ADDED]) {
+                const columnELs = document.querySelectorAll(".column")
+                console.log(data[MESSAGE_KEY]);
+                addColumnContainer(data[COLUMNS_KEY])
+                addColumnHeader(data[COLUMNS_KEY], columnELs.length)
+            } else {
+                console.log(data[MESSAGE_KEY])
+            }
         });
 }
 

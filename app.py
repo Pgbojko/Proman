@@ -4,6 +4,9 @@ import util
 
 app = Flask(__name__)
 
+ADDED = 0
+MESSAGE = 1
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -19,12 +22,12 @@ def add_new_column():
     try:
         board_id = request.get_json()["board_id"]
         col_name = request.get_json()["column_name"]
-        message = util.add_new_col_to_db(board_id, col_name)
+        result = util.add_new_col_to_db(board_id, col_name)
 
         data_to_send_back = {
-            "message": message,
+            "added": result[ADDED],
+            "message": result[MESSAGE],
             "columns": [{"column name": col_name}]
-
         }
 
         return json.dumps(data_to_send_back)
