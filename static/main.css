@@ -41,6 +41,24 @@
     width: 100%;
     padding: 1rem;
     font-size: 1.5rem;
+    position: relative;
+}
+
+.del-col-btn {
+    height: 2.2rem;
+    width: auto;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 70%;
+    left: 93%;
+}
+
+.del-col-btn-img {
+    height: 100%;
+    width: auto;
+    border: none;
+    background: none;
 }
 
 .card {
@@ -50,6 +68,10 @@
     margin: 1rem auto;
     padding: 0.5rem;
     font-size: 1.5rem;
+}
+
+.add-col-div {
+    position: relative;
 }
 
 .add-col-btn {
@@ -66,4 +88,63 @@
     width: auto;
     border: none;
     background: none;
+}
+
+.new-col-modal {
+    height: 10rem;
+    width: 250px;
+    position: absolute;
+    top: 7rem;
+    right: 0.5rem;
+    background: #e2e3e4;
+    border: black solid 2px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.new-col-modal label {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.add-card-div {
+    position: relative;
+}
+
+.new-card-modal {
+    height: 10rem;
+    width: 250px;
+    position: absolute;
+    top: 6.5rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: #f69370;
+    border: black solid 2px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.new-card-modal label {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.add-card-btn {
+    height: 6.5rem;
+    width: auto;
+    border: none;
+    background: none;
+    padding: 1rem;
+    margin: 0 auto;
+}
+
+.add-card-btn img {
+    height: 100%;
+    width: auto;
+    border: none;
+    background: none;
+}
+
+.hidden {
+    display: none;
 }

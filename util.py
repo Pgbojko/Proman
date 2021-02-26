@@ -4,19 +4,22 @@ BOARD_TITLE = "board title"
 COL_NAME = "column name"
 COLS = "columns"
 CARDS = "cards"
+COL_ID = "column id"
+BOARD_ID = "board id"
 
 
 def get_board_dict(board_id):
     board = {}
     board[BOARD_TITLE] = data_manager.get_board_title(board_id)[BOARD_TITLE]
-    board[COLS] = [get_cards_for_col(board_id, col[COL_NAME]) for col in data_manager.get_col_list(board_id)]
+    board[COLS] = [get_cards_for_col(board_id, col) for col in data_manager.get_col_list(board_id)]
     return board
 
 
-def get_cards_for_col(board_id, col_name):
+def get_cards_for_col(board_id, col_dict):
     return {
-        COL_NAME: col_name,
-        CARDS: [card for card in data_manager.get_all_column_cards(board_id, col_name)]
+        COL_NAME: col_dict[COL_NAME],
+        COL_ID: col_dict[COL_ID],
+        CARDS: [card for card in data_manager.get_all_column_cards(board_id, col_dict[COL_ID])]
     }
 
 
@@ -27,7 +30,7 @@ def add_new_col_to_db(board_id, col_name):
 
     if not existing_board_col_connection(board_id, col_id):
         data_manager.link_col_to_board(board_id, col_id)
-        return True, f"Column \"{col_name}\" has been added successfully"
+        return True, f"Column \"{col_name}\" has been added successfully", col_id
     else:
         return False, f"Column \"{col_name}\" already exists"
 
@@ -41,3 +44,13 @@ def existing_board_col_connection(board_id, col_id):
         if el["column_id"] == col_id:
             return True
     return False
+
+
+def delete_col_and_col_references(col_id):
+    data_manager.del_bord_col_link(col_id)
+    if col_id > 4:
+        data_manager.delete_column(col_id)
+
+
+def add_new_card_to_db(board_id, card_title):
+    data_manager.add_new_card(board_id, card_title)

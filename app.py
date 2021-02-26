@@ -4,8 +4,9 @@ import util
 
 app = Flask(__name__)
 
-ADDED = 0
+STATUS = 0
 MESSAGE = 1
+COLUMN_ID = 2
 
 @app.route('/')
 def index():
@@ -25,14 +26,39 @@ def add_new_column():
         result = util.add_new_col_to_db(board_id, col_name)
 
         data_to_send_back = {
-            "added": result[ADDED],
+            "status": result[STATUS],
             "message": result[MESSAGE],
-            "columns": [{"column name": col_name}]
+            "columns": [{
+                "column name": col_name,
+                "column id": result[COLUMN_ID]
+            }]
         }
 
         return json.dumps(data_to_send_back)
     except:
         return json.dumps("An error has occured. Column not added")
+
+
+@app.route("/delete-column", methods=["POST"])
+def delete_column():
+    try:
+        column_id = int(request.get_json()["column id"])
+        util.delete_col_and_col_references(column_id)
+        return json.dumps({"status": True, "message": "Column deleted successfully"})
+    except:
+        return False, json.dumps("Unable to delete this column")
+
+
+@app.route("/add-new-card", methods=["POST"])
+def add_new_card():
+    try:
+        board_id = request.get_json()["board id"]
+        card_title = request.get_json()["card name"]
+        util.add_new_card_to_db(board_id, card_title)
+        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title})
+    except:
+        return json.dumps({"status": False, "message": "Error has occurred. Card not added"})
+
 
 if __name__ == '__main__':
     app.run()
