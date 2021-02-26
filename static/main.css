@@ -145,6 +145,23 @@
     background: none;
 }
 
+.del-card-btn {
+    height: 1.5rem;
+    width: auto;
+    border: none;
+    background: none;
+    position: absolute;
+    bottom: 1%;
+    left: 95%;
+}
+
+.del-card-btn-img {
+    height: 100%;
+    width: auto;
+    border: none;
+    background: none;
+}
+
 .hidden {
     display: none;
 }

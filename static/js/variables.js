@@ -10,6 +10,7 @@ const keys = {
     "cardTitle" : "card title",
     "cards" : "cards",
     "cardName" : "card name",
+    "cardId" : "card id",
 }
 
 

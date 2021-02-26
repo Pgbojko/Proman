@@ -89,6 +89,9 @@ const addCardsToColumn = function (columnList) {
             cardEls += `
             <div class="card">
                 <p>${card[keys.cardTitle]}</p>
+                <button type="button" class="del-card-btn" data-card-id="${card[keys.cardId]}">
+                    <img alt="del-card-btn-img" class="del-card-btn-img" data-card-id="${card[keys.cardId]}" src="/static/images/delete-card-btn.png">
+                </button>
             </div>`
         })
         columnEls[i].insertAdjacentHTML("beforeend", cardEls);

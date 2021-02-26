@@ -38,7 +38,7 @@ def get_col_list(cursor: RealDictCursor, board_id):
 @connection_handler.connection_handler
 def get_all_column_cards(cursor: RealDictCursor, board_id, col_id):
     cursor.execute("""
-        SELECT c.title as "card title", c.priority as "card priority"
+        SELECT c.id as "card id", c.title as "card title", c.priority as "card priority"
         FROM cards c
         WHERE c.board_id = %(board_id)s and c.column_id = %(col_id)s;
     """, {
@@ -113,3 +113,12 @@ def add_new_card(cursor: RealDictCursor, board_id, card_title):
         "card_title": f"{card_title}",
         "board_id": f"{board_id}"
     })
+
+
+@connection_handler.connection_handler
+def delete_card(cursor: RealDictCursor, card_id):
+    cursor.execute("""
+        DELETE
+        FROM cards c
+        WHERE c.id = %(card_id)s
+    """, {"card_id": f"{card_id}"})

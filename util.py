@@ -6,6 +6,7 @@ COLS = "columns"
 CARDS = "cards"
 COL_ID = "column id"
 BOARD_ID = "board id"
+CARD_ID = "card id"
 
 
 def get_board_dict(board_id):
@@ -54,3 +55,7 @@ def delete_col_and_col_references(col_id):
 
 def add_new_card_to_db(board_id, card_title):
     data_manager.add_new_card(board_id, card_title)
+
+
+def delete_card_from_db(card_id):
+    data_manager.delete_card(card_id)

@@ -60,5 +60,15 @@ def add_new_card():
         return json.dumps({"status": False, "message": "Error has occurred. Card not added"})
 
 
+@app.route("/delete-card", methods=["POST"])
+def delete_card():
+    try:
+        card_id = int(request.get_json()["card id"])
+        util.delete_card_from_db(card_id)
+        return json.dumps({"status": True, "message": "Card deleted successfully", "card id": card_id})
+    except:
+        return json.dumps({"status": False, "message": "Error has occurred. Card not deleted"})
+
+
 if __name__ == '__main__':
     app.run()
