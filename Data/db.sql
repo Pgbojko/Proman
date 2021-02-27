@@ -43,6 +43,7 @@ CREATE TABLE Cards
     CONSTRAINT fk_card_columns
         FOREIGN KEY (Column_id)
             REFERENCES Columns(Id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE board_columns
