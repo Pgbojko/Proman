@@ -108,11 +108,15 @@ def delete_column(cursor: RealDictCursor, col_id):
 def add_new_card(cursor: RealDictCursor, board_id, card_title):
     cursor.execute("""
         INSERT INTO cards(title, column_id, board_id)
-        VALUES (%(card_title)s, 1, %(board_id)s)
+        VALUES (%(card_title)s, 1, %(board_id)s);
+        SELECT c.id as "card id"
+        FROM cards c
+        WHERE c.title = %(card_title)s
     """, {
         "card_title": f"{card_title}",
         "board_id": f"{board_id}"
     })
+    return cursor.fetchone()
 
 
 @connection_handler.connection_handler
@@ -122,3 +126,15 @@ def delete_card(cursor: RealDictCursor, card_id):
         FROM cards c
         WHERE c.id = %(card_id)s
     """, {"card_id": f"{card_id}"})
+
+
+@connection_handler.connection_handler
+def update_card_status(cursor: RealDictCursor, card_id, col_id):
+    cursor.execute("""
+        UPDATE cards
+        SET column_id = %(col_id)s
+        WHERE id = %(card_id)s
+    """, {
+        "card_id": f"{card_id}",
+        "col_id": f"{col_id}"
+    })

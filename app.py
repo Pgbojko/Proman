@@ -36,7 +36,7 @@ def add_new_column():
 
         return json.dumps(data_to_send_back)
     except:
-        return json.dumps("An error has occured. Column not added")
+        return json.dumps("An error has occurred. Column not added")
 
 
 @app.route("/delete-column", methods=["POST"])
@@ -54,10 +54,10 @@ def add_new_card():
     try:
         board_id = request.get_json()["board id"]
         card_title = request.get_json()["card name"]
-        util.add_new_card_to_db(board_id, card_title)
-        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title})
+        card_id = util.add_new_card_to_db(board_id, card_title)["card id"]
+        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, "card id": card_id})
     except:
-        return json.dumps({"status": False, "message": "Error has occurred. Card not added"})
+        return json.dumps({"status": False, "message": "An error has occurred. Card not added"})
 
 
 @app.route("/delete-card", methods=["POST"])
@@ -67,7 +67,18 @@ def delete_card():
         util.delete_card_from_db(card_id)
         return json.dumps({"status": True, "message": "Card deleted successfully", "card id": card_id})
     except:
-        return json.dumps({"status": False, "message": "Error has occurred. Card not deleted"})
+        return json.dumps({"status": False, "message": "An error has occurred. Card not deleted"})
+
+
+@app.route("/update-card-status", methods=["PATCH"])
+def update_card_status():
+    try:
+        card_id = request.get_json()["card id"]
+        column_id = request.get_json()["column id"]
+        util.update_cards_status(card_id, column_id)
+        return json.dumps({"message": "Card's status updated successfully"})
+    except:
+        return json.dumps({"message": "An error has occurred. Card's status not updated"})
 
 
 if __name__ == '__main__':

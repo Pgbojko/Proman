@@ -15,6 +15,11 @@
     /*justify-content: center;*/
 }
 
+.card-container {
+    min-height: 5.5rem;
+    /*background-color: #20c997;*/
+}
+
 .board-title {
     color: black;
     font-size: 4.5rem;
@@ -29,10 +34,12 @@
 .column {
     min-height: 5rem;
     width: 20%;
+    min-width: 15rem;
     margin: 0 auto;
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    /*background-color: #a4a4a4;*/
 }
 
 .column-header {
@@ -52,6 +59,7 @@
     position: absolute;
     top: 70%;
     left: 93%;
+    cursor: pointer;
 }
 
 .del-col-btn-img {
@@ -59,6 +67,7 @@
     width: auto;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .card {
@@ -68,6 +77,11 @@
     margin: 1rem auto;
     padding: 0.5rem;
     font-size: 1.5rem;
+    cursor: grab;
+}
+
+.card p {
+    cursor: grab;
 }
 
 .add-col-div {
@@ -81,6 +95,7 @@
     background: none;
     padding: 1rem;
     margin: 0 1rem 0 auto;
+    cursor: pointer;
 }
 
 .add-col-btn img {
@@ -88,6 +103,7 @@
     width: auto;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .new-col-modal {
@@ -107,8 +123,24 @@
     font-weight: 500;
 }
 
+.submit-btn {
+    width: 5rem;
+    height: 2rem;
+    background-color: #a2bef5;
+    border: #0c63e4 solid 1px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.input {
+    cursor: text;
+}
+
 .add-card-div {
     position: relative;
+    /*background-color: #0dcaf0;*/
 }
 
 .new-card-modal {
@@ -136,6 +168,7 @@
     background: none;
     padding: 1rem;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .add-card-btn img {
@@ -143,6 +176,7 @@
     width: auto;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .del-card-btn {
@@ -153,6 +187,7 @@
     position: absolute;
     bottom: 1%;
     left: 95%;
+    cursor: pointer;
 }
 
 .del-card-btn-img {
@@ -160,6 +195,7 @@
     width: auto;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .hidden {

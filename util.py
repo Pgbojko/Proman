@@ -54,8 +54,12 @@ def delete_col_and_col_references(col_id):
 
 
 def add_new_card_to_db(board_id, card_title):
-    data_manager.add_new_card(board_id, card_title)
+    return data_manager.add_new_card(board_id, card_title)
 
 
 def delete_card_from_db(card_id):
     data_manager.delete_card(card_id)
+
+
+def update_cards_status(card_id, col_id):
+    data_manager.update_card_status(card_id, col_id)
