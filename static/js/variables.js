@@ -11,6 +11,8 @@ const keys = {
     "cards" : "cards",
     "cardName" : "card name",
     "cardId" : "card id",
+    "enterKey": "Enter",
+    "escKey": "Escape",
 }
 
 
@@ -21,3 +23,4 @@ const columnContainer = document.querySelector(".column-container");
 
 let boardId;
 let boardData;
+let draggedElement;

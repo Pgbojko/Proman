@@ -1,6 +1,11 @@
 "user strict"
 
-let draggedElement;
+const listenersHandler = function () {
+    setClickListeners();
+    setDblClickListener();
+    setKeyboardListener();
+    dragAndDropHandler();
+}
 
 const setClickListeners = function () {
     const colContainer = document.querySelector(".column-container");
@@ -15,14 +20,72 @@ const setClickListeners = function () {
             const modalEl = document.querySelector(".new-col-modal");
             modalEl.classList.toggle("hidden");
         } else if (event.target.classList.contains("submit-col-name")) {
-            sendNewColData(event);
+            sendNewColData();
         } else if (event.target.classList.contains("submit-card-name")) {
             addNewCard();
         } else if (event.target.classList.contains("del-card-btn-img")) {
             const cardId = event.target.dataset.cardId;
-            delCardFromDb(cardId)
+            delCardFromDb(cardId);
+        } else if (!event.target.classList.contains("new-title-input")) {
+            removeTitleInputField();
         }
     })
+}
+
+
+const setDblClickListener = function () {
+    const colContainer = document.querySelector(".column-container");
+    colContainer.addEventListener('dblclick', event => {
+        if (event.target.classList.contains("col-title") || event.target.classList.contains("card-title")) {
+            let title =  event.target.textContent;
+            let input = `<input class="new-title-input" value="${title}" minlength="1" maxlength="20">`;
+            event.target.classList.add("hidden");
+            event.target.parentElement.insertAdjacentHTML('afterbegin', input);
+            document.querySelector(".new-title-input").focus();
+        }
+    })
+}
+
+const setKeyboardListener = function () {
+    const colContainer = document.querySelector(".column-container");
+    colContainer.addEventListener('keyup', event => {
+        if (event.key === keys.enterKey) {
+            if (event.target.classList.contains("col-input")) {
+                sendNewColData();
+            } else if (event.target.classList.contains("card-input")) {
+                addNewCard()
+            } else {
+                updateTitleInDB(event.target);
+                removeTitleInputField();
+            }
+        } else if (event.key === keys.escKey) {
+            removeTitleInputField();
+        }
+    })
+}
+
+
+const updateTitleInDB = function (element) {
+    let newTitle = element.value;
+    let titleEl = document.querySelector(".new-title-input").parentElement.querySelector(".hidden");
+    titleEl.textContent = newTitle
+
+    if (titleEl.classList.contains("card-title")) {
+        let id = document.querySelector(".new-title-input").parentElement.dataset.cardId;
+        updateTitle(newTitle, id, false);
+    } else if (titleEl.classList.contains("col-title")) {
+        let id = document.querySelector(".new-title-input").parentElement.dataset.columnId;
+        updateTitle(newTitle, id, true);
+    }
+}
+
+
+const removeTitleInputField = function () {
+    let titleInput = document.querySelector(".new-title-input");
+        if (titleInput) {
+            titleInput.parentElement.querySelector(".hidden").classList.remove("hidden");
+            titleInput.remove();
+        }
 }
 
 
@@ -73,7 +136,6 @@ const setDropListener = function (btnEl) {
             updateCardStatus(cardId, columnId);
         }
     })
-
 }
 
 

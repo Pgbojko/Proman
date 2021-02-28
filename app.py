@@ -81,5 +81,17 @@ def update_card_status():
         return json.dumps({"message": "An error has occurred. Card's status not updated"})
 
 
+@app.route("/update-title", methods=["PATCH"])
+def update_title():
+    try:
+        new_title = request.get_json()["title"]
+        id = request.get_json()["id"]
+        is_column = request.get_json()["is column"]
+        util.update_title_in_DB(new_title, id, is_column)
+        return json.dumps("Title updated successfully")
+    except:
+        return json.dumps("An error has occured. Title not updated")
+
+
 if __name__ == '__main__':
     app.run()

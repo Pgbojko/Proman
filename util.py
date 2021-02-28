@@ -63,3 +63,10 @@ def delete_card_from_db(card_id):
 
 def update_cards_status(card_id, col_id):
     data_manager.update_card_status(card_id, col_id)
+
+
+def update_title_in_DB(title, id, is_column):
+    if is_column:
+        data_manager.update_col_name(id, title)
+    else:
+        data_manager.update_card_name(id, title)

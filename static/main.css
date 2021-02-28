@@ -6,6 +6,7 @@
     box-sizing: border-box;
     cursor: default;
     border: none;
+    z-index: 1;
 }
 
 .board-container {
@@ -196,6 +197,10 @@
     border: none;
     background: none;
     cursor: pointer;
+}
+
+.new-title-input {
+    width: 90%
 }
 
 .hidden {

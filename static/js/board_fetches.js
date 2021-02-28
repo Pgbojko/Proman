@@ -1,6 +1,6 @@
 "use strict"
 
-const sendNewColData = function (event) {
+const sendNewColData = function () {
     const NewColName = document.querySelector("#new-column-name");
     const newColumnModal = document.querySelector(".new-col-modal");
     const dataToSend = {
@@ -72,7 +72,7 @@ const addNewCard = function () {
             if (data[keys.operationStatus]) {
                 let newCard = `
                     <div class="card" draggable="true" data-card-id="${data[keys.cardId]}">
-                        <p>${data[keys.cardTitle]}</p>
+                        <p class="card-title">${data[keys.cardTitle]}</p>
                         <button type="button" class="del-card-btn" data-card-id="${data[keys.cardId]}" draggable="false">
                             <img alt="del-card-btn-img" class="del-card-btn-img" data-card-id="${data[keys.cardId]}" src="/static/images/delete-card-btn.png" draggable="false">
                         </button>
@@ -124,4 +124,20 @@ const updateCardStatus = function (cardId, columnId) {
         })
     }
     fetch("/update-card-status", dataToSend)
+}
+
+
+const updateTitle = function (newTitle, id, isColumn) {
+    let dataToSend = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "title": newTitle,
+            "id": id,
+            "is column": isColumn
+        })
+    }
+    fetch("/update-title", dataToSend);
 }

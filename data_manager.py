@@ -138,3 +138,27 @@ def update_card_status(cursor: RealDictCursor, card_id, col_id):
         "card_id": f"{card_id}",
         "col_id": f"{col_id}"
     })
+
+
+@connection_handler.connection_handler
+def update_col_name(cursor: RealDictCursor, col_id, col_title):
+    cursor.execute("""
+        UPDATE columns
+        SET column_name = %(col_title)s
+        WHERE id = %(col_id)s
+    """, {
+        "col_id": f"{col_id}",
+        "col_title": f"{col_title}"
+    })
+
+
+@connection_handler.connection_handler
+def update_card_name(cursor: RealDictCursor, card_id, card_title):
+    cursor.execute("""
+        UPDATE cards
+        SET title = %(card_title)s
+        WHERE id = %(card_id)s
+    """, {
+        "card_id": f"{card_id}",
+        "card_title": f"{card_title}"
+    })
