@@ -162,3 +162,15 @@ def update_card_name(cursor: RealDictCursor, card_id, card_title):
         "card_id": f"{card_id}",
         "card_title": f"{card_title}"
     })
+
+
+@connection_handler.connection_handler
+def get_user(cursor: RealDictCursor, login):
+    cursor.execute("""
+        SELECT * FROM "users"
+        WHERE username = %(login)s
+        """, {
+        "login": f"{login}"
+    })
+
+    return cursor.fetchone()

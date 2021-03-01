@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, json, url_for, redirect
 from variables import tables
-import util
+import util, data_manager
 
 app = Flask(__name__)
 
@@ -11,6 +11,15 @@ COLUMN_ID = 2
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    login_value = request.form
+    user_data = data_manager.get_user(login_value.get("login"))
+    if login_value.get("password") == user_data["password"]:
+        return redirect(url_for('index'))
+    return render_template('login.html')
 
 
 @app.route("/<board_id>/board-data")
