@@ -1,21 +1,56 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, json, url_for, redirect, session
 from variables import tables
-import util
+import util, data_manager
+import bcrypt
+from os import urandom
+
 
 app = Flask(__name__)
+app.secret_key = urandom(8)
+
 
 STATUS = 0
 MESSAGE = 1
 COLUMN_ID = 2
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
+@app.route('/register', methods=['POST'])
+def register():
+    login = request.form.get("login")
+    password = request.form.get("password")
+    confirmation = request.form.get("confirm_password")
+    if confirmation != password or data_manager.get_user(login) != None:
+        return redirect(url_for('index'))
+    else:
+        hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(8))
+        data_manager.add_to_database(login, hashed_pass.decode('utf-8'))
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    login_value = request.form
+    user_data = data_manager.get_user(login_value.get("login"))
+    if bcrypt.checkpw(login_value.get("password").encode('utf-8'), user_data["password"].encode('utf-8')):
+        session['user_id'] = user_data['user_id']
+        return redirect(url_for('index'))
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id')
+    return redirect(url_for('index'))
+
+
 @app.route("/<board_id>/board-data")
 def get_board_data(board_id):
-    return json.dumps(util.get_board_dict(board_id))
+    data = util.get_board_dict(board_id)
+    return json.dumps(data)
 
 
 @app.route("/add-new-column", methods=["POST"])
@@ -54,8 +89,10 @@ def add_new_card():
     try:
         board_id = request.get_json()["board id"]
         card_title = request.get_json()["card name"]
-        card_id = util.add_new_card_to_db(board_id, card_title)["card id"]
-        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, "card id": card_id})
+        card_priority = int(request.get_json()["card priority"])
+        card_data = util.add_new_card_to_db(board_id, card_title, card_priority)
+        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, \
+                           "card id": card_data["card id"], "card priority": int(card_data["card priority"])})
     except:
         return json.dumps({"status": False, "message": "An error has occurred. Card not added"})
 

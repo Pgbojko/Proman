@@ -1,5 +1,16 @@
 "use strict"
 
+const getBoardData = function () {
+    const url = `/${boardId}/board-data`
+    fetch(url, {
+        method: "GET",
+        credentials: "same-origin"
+    })
+    .then(response => response.json())
+    .then(json_response => loadBoard(json_response));
+}
+
+
 const sendNewColData = function () {
     const NewColName = document.querySelector("#new-column-name");
     const newColumnModal = document.querySelector(".new-col-modal");
@@ -55,6 +66,7 @@ const delColFromDB = function (columnId) {
 const addNewCard = function () {
     const newCardInput = document.getElementById("new-card-name");
     const cardContainer = document.querySelector(".card-container");
+    const cardPriority = cardContainer.lastElementChild.dataset.cardPriority;
     const modalEl = document.querySelector(".new-card-modal");
     const dataToSend = {
         method : "POST",
@@ -63,22 +75,15 @@ const addNewCard = function () {
         },
         body : JSON.stringify({
             "board id" : boardId,
-            "card name" : newCardInput.value
+            "card name" : newCardInput.value,
+            "card priority": cardPriority
         })
     };
     fetch("/add-new-card", dataToSend)
         .then(response => response.json())
         .then(data => {
             if (data[keys.operationStatus]) {
-                let newCard = `
-                    <div class="card" draggable="true" data-card-id="${data[keys.cardId]}">
-                        <p class="card-title">${data[keys.cardTitle]}</p>
-                        <button type="button" class="del-card-btn" data-card-id="${data[keys.cardId]}" draggable="false">
-                            <img alt="del-card-btn-img" class="del-card-btn-img" data-card-id="${data[keys.cardId]}" src="/static/images/delete-card-btn.png" draggable="false">
-                        </button>
-                    </div>`
-                cardContainer.insertAdjacentHTML("beforeend", newCard)
-
+                cardContainer.insertAdjacentHTML("beforeend", addCardToColumnHTMLElement(data));
             }
             console.log(data[keys.message])
         })
@@ -103,7 +108,9 @@ const delCardFromDb = function (cardId) {
                 const cardsList = document.querySelectorAll(".card");
                 cardsList.forEach(card => {
                     if (card.querySelector("button").dataset.cardId === cardId) {
-                        card.remove()
+                        card.remove();
+                        document.querySelector(".card-container").lastElementChild.remove();
+
                     }
                 })
             }

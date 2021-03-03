@@ -11,6 +11,7 @@ const keys = {
     "cards" : "cards",
     "cardName" : "card name",
     "cardId" : "card id",
+    "cardPriority": "card priority",
     "enterKey": "Enter",
     "escKey": "Escape",
 }

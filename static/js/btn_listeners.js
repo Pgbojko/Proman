@@ -5,6 +5,8 @@ const listenersHandler = function () {
     setDblClickListener();
     setKeyboardListener();
     dragAndDropHandler();
+    // setMouseOverSlots();
+    // setMouseOutSlots();
 }
 
 const setClickListeners = function () {
@@ -88,6 +90,27 @@ const removeTitleInputField = function () {
         }
 }
 
+// const setMouseOverSlots = function () {
+//     const colContainer = document.querySelector(".column-container");
+//     colContainer.addEventListener('mouseover', event => {
+//         if (event.target.classList.contains("card-slot")) {
+//             event.target.classList.add("slot-highlighted");
+//             event.target.classList.remove("card-slot");
+//         }
+//     })
+// }
+//
+//
+// const setMouseOutSlots = function () {
+//     const colContainer = document.querySelector(".column-container");
+//     colContainer.addEventListener('mouseout', event => {
+//         if (event.target.classList.contains("slot-highlighted")) {
+//             event.target.classList.remove("slot-highlighted");
+//             event.target.classList.add("card-slot");
+//         }
+//     })
+// }
+
 
 const dragAndDropHandler = function () {
     const colContainer = document.querySelector(".column-container");
@@ -95,7 +118,7 @@ const dragAndDropHandler = function () {
     // setDragEndListener(colContainer);
     setDragEnterListener(colContainer);
     setDragOverListener(colContainer);
-    // setDragLeaveListener(colContainer);
+    setDragLeaveListener(colContainer);
     setDropListener(colContainer);
 }
 
@@ -113,7 +136,11 @@ const setDragStartListeners = function (btnEl) {
 
 const setDragEnterListener = function (btnEl) {
     btnEl.addEventListener('dragenter', event => {
-        event.preventDefault()
+        event.preventDefault();
+        if (event.target.classList.contains("card-slot")) {
+            event.target.classList.add("slot-highlighted");
+            event.target.classList.remove("card-slot");
+        }
     })
 }
 
@@ -123,8 +150,15 @@ const setDragOverListener = function (btnEl) {
     })
 }
 
-// const setDragLeaveListener = function (btnEl) {
-// }
+const setDragLeaveListener = function (btnEl) {
+    btnEl.addEventListener('dragleave', event => {
+        event.preventDefault()
+        if (event.target.classList.contains("slot-highlighted")) {
+            event.target.classList.remove("slot-highlighted");
+            event.target.classList.add("card-slot");
+        }
+    })
+}
 
 const setDropListener = function (btnEl) {
     btnEl.addEventListener('drop', event => {
