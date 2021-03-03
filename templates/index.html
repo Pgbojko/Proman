@@ -23,13 +23,31 @@
 
     </form>
     <br>
+        <form action="{{ url_for('register') }}" method="post">
+                Register <br>
+
+        <label for="login">Login</label><br>
+        <input type="text" name="login" maxlength="16" minlength="4"><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" name="password" maxlength="8" minlength="1"><br>
+
+        <label for="password">Confirm password</label><br>
+        <input type="password" name="confirm_password" maxlength="8" minlength="1"><br>
+
+        <button type="submit" name="sign in">Register</button>
+        </form>
+    <br>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit" name="logout" style="border:black solid 1px">Logout</button>
+            </form>
 
  {% block content %}
 
     {% endblock %}
-
+    {% if session.user_id %}
     {% include "display_table.html" %}
-
+    {% endif %}
 
 <script type="text/javascript" src="/static/js/variables.js"></script>
 <script type="text/javascript" src="/static/js/table_display.js"></script>

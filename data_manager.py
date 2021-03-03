@@ -174,3 +174,15 @@ def get_user(cursor: RealDictCursor, login):
     })
 
     return cursor.fetchone()
+
+
+@connection_handler.connection_handler
+def add_to_database(cursor: RealDictCursor, login, hashed_password):
+    cursor.execute("""
+        INSERT INTO users(username, password)
+        values(%(login)s, %(password)s)      
+    """, {
+        "login" : f"{login}",
+        "password" : f"{hashed_password}"
+    })
+
