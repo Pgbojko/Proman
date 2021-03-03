@@ -1,0 +1,18 @@
+{% extends %}
+{% block content %}
+
+    <form action="{{ url_for('login') }}" method="post">
+                Sign in <br>
+
+        <label for="login">Login</label><br>
+        <input type="text" name="login" maxlength="16" minlength="4"><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" name="password" maxlength="8" minlength="1"><br>
+
+        <button type="submit" name="sign in">Sign in</button>
+
+
+    </form>
+
+{% endblock %}

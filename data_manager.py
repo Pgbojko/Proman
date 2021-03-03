@@ -196,3 +196,27 @@ def update_card_name(cursor: RealDictCursor, card_id, card_title):
         "card_id": f"{card_id}",
         "card_title": f"{card_title}"
     })
+
+
+@connection_handler.connection_handler
+def get_user(cursor: RealDictCursor, login):
+    cursor.execute("""
+        SELECT * FROM "users"
+        WHERE username = %(login)s
+        """, {
+        "login": f"{login}"
+    })
+
+    return cursor.fetchone()
+
+
+@connection_handler.connection_handler
+def add_to_database(cursor: RealDictCursor, login, hashed_password):
+    cursor.execute("""
+        INSERT INTO users(username, password)
+        values(%(login)s, %(password)s)      
+    """, {
+        "login" : f"{login}",
+        "password" : f"{hashed_password}"
+    })
+
