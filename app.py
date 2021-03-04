@@ -16,7 +16,13 @@ COLUMN_ID = 2
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    public_boards = data_manager.public_boards()
+    if "user_id" in session.keys():
+        private_boards = data_manager.private_boards(session["user_id"])
+    else:
+        private_boards = None
+
+    return render_template('index.html', public_boards=public_boards, private_boards=private_boards)
 
 
 @app.route('/register', methods=['POST'])
@@ -29,7 +35,7 @@ def register():
     else:
         hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(8))
         data_manager.add_to_database(login, hashed_pass.decode('utf-8'))
-
+        return redirect(url_for('index'))
 
 @app.route('/login', methods=['POST'])
 def login():

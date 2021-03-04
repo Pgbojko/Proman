@@ -3,13 +3,27 @@ from psycopg2.extras import RealDictCursor
 
 
 @connection_handler.connection_handler
-def get_tables(cursor: RealDictCursor):
+def public_boards(cursor: RealDictCursor):
     query = """
     SELECT *
     FROM boards
+    WHERE "User" is null 
     ORDER BY id
     """
     cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connection_handler.connection_handler
+def private_boards(cursor: RealDictCursor, user_id):
+    query = """
+    SELECT *
+    FROM boards
+    WHERE "User" = %(user_id)s
+    ORDER BY id
+    """
+    param = {'user_id' : f"{user_id}"}
+    cursor.execute(query, param)
     return cursor.fetchall()
 
 
@@ -185,4 +199,5 @@ def add_to_database(cursor: RealDictCursor, login, hashed_password):
         "login" : f"{login}",
         "password" : f"{hashed_password}"
     })
+
 
