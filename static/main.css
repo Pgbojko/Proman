@@ -19,6 +19,7 @@
 .card-container {
     min-height: 5.5rem;
     /*background-color: #20c997;*/
+    padding: 5px;
 }
 
 .board-title {
@@ -205,4 +206,16 @@
 
 .hidden {
     display: none;
+}
+
+.card-slot {
+    height: 1rem;
+    width: 90%;
+    background-color: #0dcaf0;
+    margin: 0.5rem auto;
+}
+
+.slot-highlighted {
+    height: 3rem;
+    background-color: greenyellow;
 }

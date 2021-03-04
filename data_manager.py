@@ -54,7 +54,8 @@ def get_all_column_cards(cursor: RealDictCursor, board_id, col_id):
     cursor.execute("""
         SELECT c.id as "card id", c.title as "card title", c.priority as "card priority"
         FROM cards c
-        WHERE c.board_id = %(board_id)s and c.column_id = %(col_id)s;
+        WHERE c.board_id = %(board_id)s and c.column_id = %(col_id)s
+        ORDER BY priority;
     """, {
        "board_id": f"{board_id}",
        "col_id": f"{col_id}"
@@ -119,27 +120,37 @@ def delete_column(cursor: RealDictCursor, col_id):
     """, {"column_id": f"{col_id}"})
 
 @connection_handler.connection_handler
-def add_new_card(cursor: RealDictCursor, board_id, card_title):
+def add_new_card(cursor: RealDictCursor, board_id, card_title, card_priority):
     cursor.execute("""
-        INSERT INTO cards(title, column_id, board_id)
-        VALUES (%(card_title)s, 1, %(board_id)s);
-        SELECT c.id as "card id"
+        INSERT INTO cards(title, column_id, board_id, priority)
+        VALUES (%(card_title)s, 1, %(board_id)s, %(priority)s);
+        SELECT c.id as "card id", c.priority as "card priority"
         FROM cards c
         WHERE c.title = %(card_title)s
     """, {
         "card_title": f"{card_title}",
-        "board_id": f"{board_id}"
+        "board_id": f"{board_id}",
+        "priority": f"{card_priority}"
     })
     return cursor.fetchone()
 
 
 @connection_handler.connection_handler
-def delete_card(cursor: RealDictCursor, card_id):
+def delete_card_by_card_id(cursor: RealDictCursor, card_id):
     cursor.execute("""
         DELETE
         FROM cards c
         WHERE c.id = %(card_id)s
     """, {"card_id": f"{card_id}"})
+
+
+@connection_handler.connection_handler
+def delete_card_by_col_id(cursor: RealDictCursor, col_id):
+    cursor.execute("""
+        DELETE
+        FROM cards c
+        WHERE c.column_id = %(col_id)s
+    """, {"col_id": f"{col_id}"})
 
 
 @connection_handler.connection_handler
@@ -163,6 +174,29 @@ def update_col_name(cursor: RealDictCursor, col_id, col_title):
     """, {
         "col_id": f"{col_id}",
         "col_title": f"{col_title}"
+    })
+
+
+@connection_handler.connection_handler
+def get_user(cursor: RealDictCursor, login):
+    cursor.execute("""
+        SELECT * FROM "users"
+        WHERE username = %(login)s
+        """, {
+        "login": f"{login}"
+    })
+
+    return cursor.fetchone()
+
+
+@connection_handler.connection_handler
+def add_to_database(cursor: RealDictCursor, login, hashed_password):
+    cursor.execute("""
+        INSERT INTO users(username, password)
+        values(%(login)s, %(password)s)      
+    """, {
+        "login" : f"{login}",
+        "password" : f"{hashed_password}"
     })
 
 

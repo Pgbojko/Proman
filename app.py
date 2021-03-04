@@ -52,9 +52,11 @@ def logout():
     session.pop('user_id')
     return redirect(url_for('index'))
 
+
 @app.route("/<board_id>/board-data")
 def get_board_data(board_id):
-    return json.dumps(util.get_board_dict(board_id))
+    data = util.get_board_dict(board_id)
+    return json.dumps(data)
 
 
 @app.route("/add-new-column", methods=["POST"])
@@ -93,8 +95,10 @@ def add_new_card():
     try:
         board_id = request.get_json()["board id"]
         card_title = request.get_json()["card name"]
-        card_id = util.add_new_card_to_db(board_id, card_title)["card id"]
-        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, "card id": card_id})
+        card_priority = int(request.get_json()["card priority"])
+        card_data = util.add_new_card_to_db(board_id, card_title, card_priority)
+        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, \
+                           "card id": card_data["card id"], "card priority": int(card_data["card priority"])})
     except:
         return json.dumps({"status": False, "message": "An error has occurred. Card not added"})
 

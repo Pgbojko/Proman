@@ -51,14 +51,17 @@ def delete_col_and_col_references(col_id):
     data_manager.del_bord_col_link(col_id)
     if col_id > 4:
         data_manager.delete_column(col_id)
+    else:
+        data_manager.delete_card_by_col_id(col_id)
 
 
-def add_new_card_to_db(board_id, card_title):
-    return data_manager.add_new_card(board_id, card_title)
+def add_new_card_to_db(board_id, card_title, card_priority):
+    data = data_manager.add_new_card(board_id, card_title, card_priority)
+    return data
 
 
 def delete_card_from_db(card_id):
-    data_manager.delete_card(card_id)
+    data_manager.delete_card_by_card_id(card_id)
 
 
 def update_cards_status(card_id, col_id):
