@@ -29,7 +29,7 @@ def register():
     else:
         hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(8))
         data_manager.add_to_database(login, hashed_pass.decode('utf-8'))
-
+        return redirect(url_for('index'))
 
 @app.route('/login', methods=['POST'])
 def login():

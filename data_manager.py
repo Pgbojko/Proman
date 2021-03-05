@@ -219,4 +219,3 @@ def add_to_database(cursor: RealDictCursor, login, hashed_password):
         "login" : f"{login}",
         "password" : f"{hashed_password}"
     })
-

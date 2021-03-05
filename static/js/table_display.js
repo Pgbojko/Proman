@@ -46,7 +46,6 @@ const addColumnHeader = function (columnList, firstIndex) {
     const columnEls = document.querySelectorAll(".column");
 
     columnList.forEach(column => {
-        // let headerEl = columnHeaderHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterbegin", columnHeaderHTMLElement(column));
         firstIndex++;
     })
@@ -55,7 +54,6 @@ const addColumnHeader = function (columnList, firstIndex) {
 const addCardContainer = function (columnsList, firstIndex) {
     const columnEls = document.querySelectorAll(".column-header");
     columnsList.forEach(column => {
-        // let cardContainer = cardContainerHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterend", cardContainerHTMLElement(column));
         firstIndex++;
     })
