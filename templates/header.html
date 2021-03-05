@@ -1,0 +1,56 @@
+<div class="blur-background hidden"></div>
+
+<header>
+    <div class="title-authors">
+        <h1>PROMAN</h1>
+        <h2>Katarzyna Corominas, Piotr Bojko, Kamil Trąba </h2>
+    </div>
+    <div class="sign-up-in-out">
+        {% if session.user_id %}
+            <form action="{{ url_for('logout') }}" method="get">
+                <button class="sign-out" type="submit" name="logout" style="border:black solid 1px">Logout</button>
+            </form>
+{#            <button class="sign-in-out hidden">Sign out</button>#}
+        {% else %}
+            <button class="sign-in">Sign in</button>
+            <button class="sign-up">Sign up</button>
+        {% endif %}
+    </div>
+</header>
+
+<section class="sign-up-in-out-modal hidden">
+        <div class="sign-in-container">
+            <form class="sign" action="{{ url_for('login') }}" method="post">
+                <p>Sign in:</p>
+
+                <label for="login">Login</label><br>
+                <input type="text" name="login" maxlength="16" minlength="4"><br>
+
+                <label for="password">Password</label><br>
+                <input type="password" name="password" maxlength="8" minlength="1"><br>
+
+                <button type="submit" name="sign in">Sign in</button>
+            </form>
+        </div>
+
+    <div class="sign-up-container">
+        <form action="{{ url_for('register') }}" method="post">
+            <p>Register</p>
+
+            <label for="login">Login</label><br>
+            <input type="text" name="login" maxlength="16" minlength="4"><br>
+
+            <label for="password">Password</label><br>
+            <input type="password" name="password" maxlength="8" minlength="1"><br>
+
+            <label for="password">Confirm password</label><br>
+            <input type="password" name="confirm_password" maxlength="8" minlength="1"><br>
+
+            <button type="submit" name="sign in">Register</button>
+        </form>
+    </div>
+
+
+</section>
+
+{#<script type="text/javascript" src="/static/js/header_listeners.js"></script>#}

@@ -16,7 +16,13 @@ COLUMN_ID = 2
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    public_boards = data_manager.public_boards()
+    if "user_id" in session.keys():
+        private_boards = data_manager.private_boards(session["user_id"])
+    else:
+        private_boards = None
+    user_id = session["user_id"] if 'user_id' in session.keys() else None
+    return render_template('index2.html', public_boards=public_boards, private_boards=private_boards, user_id=user_id)
 
 
 @app.route('/register', methods=['POST'])
@@ -89,10 +95,10 @@ def add_new_card():
     try:
         board_id = request.get_json()["board id"]
         card_title = request.get_json()["card name"]
-        card_priority = int(request.get_json()["card priority"])
-        card_data = util.add_new_card_to_db(board_id, card_title, card_priority)
-        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title, \
-                           "card id": card_data["card id"], "card priority": int(card_data["card priority"])})
+        column_id = request.get_json()["column id"]
+        card_data = util.add_new_card_to_db(board_id, card_title, column_id)
+        return json.dumps({"status": True, "message": "Card added successfully", "card title": card_title,
+                           "card id": card_data["card id"]})
     except:
         return json.dumps({"status": False, "message": "An error has occurred. Card not added"})
 
@@ -128,6 +134,34 @@ def update_title():
         return json.dumps("Title updated successfully")
     except:
         return json.dumps("An error has occured. Title not updated")
+
+
+@app.route("/new-public-board", methods=["POST"])
+def new_public_board():
+    board_title = request.get_json()["board title"]
+    board_id = util.add_new_board_to_db(board_title)
+    return json.dumps({"board title": board_title, "board id": board_id})
+
+
+@app.route("/new-private-board", methods=["POST"])
+def new_private_board():
+    board_title = request.get_json()["board title"]
+    user_id = request.get_json()["user id"]
+    board_id = util.add_new_board_to_db(board_title, user_id)
+    return json.dumps({"board title": board_title, "board id": board_id})
+
+
+@app.route("/<board_id>/delete", methods=["POST"])
+def del_board(board_id):
+    data_manager.del_board(board_id)
+    return json.dumps({"board id" : board_id})
+
+
+@app.route("/<board_id>/edit-title", methods=["PATCH"])
+def edit_board_title(board_id):
+    new_title = request.get_json()["board title"]
+    data_manager.edit_board_title(board_id, new_title)
+    return json.dumps({"board title": new_title})
 
 
 if __name__ == '__main__':

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proman</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/board_list.css">
+</head>
+<body>
+
+{% include "header.html" %}
+
+<div class="board-list-container">
+    <h1 class="board-list-title">Public boards:</h1>
+    <section class="public-boards grid-container">
+        {% for board in public_boards %}
+            <div class="board-block" data-board-id="{{ board["board_id"] }}">
+                <h2 class="board-block-title" data-board-id="{{ board["board_id"] }}">{{ board["board_title"] }}</h2>
+                <button type="button" class="del-board-btn" data-board-id="{{ board["board_id"] }}" draggable="false">
+                    <img alt="del-col-btn-img" class="del-board-btn-img" data-column-id="${column[keys.columnId]}" src="/static/images/delete-btn.png" draggable="false">
+                </button>
+            </div>
+        {% endfor %}
+
+        <div class="add-new-board-btn public-board-btn">
+            <button class="public-board">+</button>
+        </div>
+    </section>
+
+    {% if private_boards != None %}
+        <h1 class="board-list-title">Private boards:</h1>
+        <section class="private-boards grid-container" data-user-id="{{ user_id }}">
+            {% for board in private_boards %}
+                <div class="board-block" data-board-id="{{ board["board_id"] }}">
+                    <h1 class="board-block-title" data-board-id="{{ board["board_id"] }}">{{ board["board_title"] }}</h1>
+                    <button type="button" class="del-board-btn" data-board-id="{{ board["board_id"] }}" draggable="false">
+                        <img alt="del-board-btn-img" class="del-board-btn-img" data-board-id="{{ board["board_id"] }}" src="/static/images/delete-btn.png" draggable="false">
+                    </button>
+                </div>
+            {% endfor %}
+
+            <div class="add-new-board-btn private-board-btn">
+                <button class="private-board">+</button>
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+<script type="text/javascript" src="/static/js/variables.js"></script>
+<script type="text/javascript" src="/static/js/board_list_listeners.js"></script>
+<script type="text/javascript" src="/static/js/btn_listeners.js"></script>
+<script type="text/javascript" src="/static/js/HTML_elements.js"></script>
+<script type="text/javascript" src="/static/js/board_fetches.js"></script>
+<script type="text/javascript" src="/static/js/table_display.js"></script>
+
+</body>
+</html>
+</html>

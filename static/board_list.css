@@ -1,0 +1,115 @@
+* {
+    color: black;
+    font-family: "Times New Roman";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+    border: none;
+    z-index: 1;
+}
+
+.board-list-title {
+    height: 3.5rem;
+    width: 100%;
+    background-color: midnightblue;
+    color: white;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 550;
+    padding: 0.5rem 2rem;
+    margin: 2rem 0 0.5rem;
+
+}
+
+.grid-container {
+    width: 100%;
+    min-height: 10rem;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    margin: 0;
+    padding: 0.5rem 2rem;
+}
+
+.board-block {
+    height: 8rem;
+    min-width: 15rem;
+    background-color: #d6d6d6;
+    border: black solid 1px;
+    border-radius: 1px;
+    margin: 1.5rem 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.new-board-block {
+    height: 8rem;
+    min-width: 15rem;
+    background-color: #d6d6d6;
+    border: black solid 1px;
+    border-radius: 1px;
+    margin: 1.5rem 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.board-block-title {
+    font-size: 2.2rem;
+    font-weight: 550;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.add-new-board-btn {
+    height: 8rem;
+    width: 8rem;
+    background-color: #d6d6d6;
+    border: black solid 1px;
+    border-radius: 1px;
+    margin: 1.5rem 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-new-board-btn button {
+    background-color: #d6d6d6;
+    font-size: 4rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.del-board-btn {
+    height: 2.2rem;
+    width: auto;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 85%;
+    left: 95%;
+    cursor: pointer;
+}
+
+.del-board-btn-img {
+    height: 100%;
+    width: auto;
+    border: none;
+    background: none;
+    cursor: pointer;
+}

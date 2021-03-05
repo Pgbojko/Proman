@@ -1,4 +1,5 @@
 import data_manager
+from flask import render_template
 
 BOARD_TITLE = "board title"
 COL_NAME = "column name"
@@ -55,8 +56,8 @@ def delete_col_and_col_references(col_id):
         data_manager.delete_card_by_col_id(col_id)
 
 
-def add_new_card_to_db(board_id, card_title, card_priority):
-    data = data_manager.add_new_card(board_id, card_title, card_priority)
+def add_new_card_to_db(board_id, card_title, column_id):
+    data = data_manager.add_new_card(board_id, card_title, column_id)
     return data
 
 
@@ -73,3 +74,15 @@ def update_title_in_DB(title, id, is_column):
         data_manager.update_col_name(id, title)
     else:
         data_manager.update_card_name(id, title)
+
+
+def add_new_board_to_db(board_title, user_id=None):
+    if user_id is None:
+        new_board_id = data_manager.add_new_public_board(board_title)["board id"]
+    else:
+        new_board_id = data_manager.add_new_private_board(board_title, user_id)["board id"]
+
+    for col_id in range(1, 5):
+        data_manager.link_col_to_board(new_board_id, col_id)
+
+    return new_board_id

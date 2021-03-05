@@ -3,13 +3,27 @@ from psycopg2.extras import RealDictCursor
 
 
 @connection_handler.connection_handler
-def get_tables(cursor: RealDictCursor):
+def public_boards(cursor: RealDictCursor):
     query = """
-    SELECT *
-    FROM boards
+    SELECT b.id as "board_id", b.title as "board_title", b."User" as "user_id"
+    FROM boards b
+    WHERE "User" is null 
     ORDER BY id
     """
     cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connection_handler.connection_handler
+def private_boards(cursor: RealDictCursor, user_id):
+    query = """
+    SELECT b.id as "board_id", b.title as "board_title", b."User" as "user_id"
+    FROM boards b
+    WHERE "User" = %(user_id)s
+    ORDER BY id
+    """
+    param = {'user_id' : f"{user_id}"}
+    cursor.execute(query, param)
     return cursor.fetchall()
 
 
@@ -106,17 +120,19 @@ def delete_column(cursor: RealDictCursor, col_id):
     """, {"column_id": f"{col_id}"})
 
 @connection_handler.connection_handler
-def add_new_card(cursor: RealDictCursor, board_id, card_title, card_priority):
+def add_new_card(cursor: RealDictCursor, board_id, card_title, column_id):
     cursor.execute("""
-        INSERT INTO cards(title, column_id, board_id, priority)
-        VALUES (%(card_title)s, 1, %(board_id)s, %(priority)s);
-        SELECT c.id as "card id", c.priority as "card priority"
+        INSERT INTO cards(title, column_id, board_id)
+        VALUES (%(card_title)s, %(column_id)s, %(board_id)s);
+        SELECT c.id as "card id"
         FROM cards c
         WHERE c.title = %(card_title)s
+        ORDER BY c.id DESC
+        LIMIT 1;
     """, {
         "card_title": f"{card_title}",
         "board_id": f"{board_id}",
-        "priority": f"{card_priority}"
+        "column_id": f"{column_id}"
     })
     return cursor.fetchone()
 
@@ -199,23 +215,50 @@ def update_card_name(cursor: RealDictCursor, card_id, card_title):
 
 
 @connection_handler.connection_handler
-def get_user(cursor: RealDictCursor, login):
+def add_new_public_board(cursor: RealDictCursor, board_title):
     cursor.execute("""
-        SELECT * FROM "users"
-        WHERE username = %(login)s
-        """, {
-        "login": f"{login}"
-    })
-
+        INSERT INTO boards (title, "User") 
+        VALUES (%(title)s, null);
+        SELECT b.id as "board id"
+        FROM boards b
+        ORDER BY b.id DESC
+        LIMIT 1;
+    """, {"title": f"{board_title}"})
     return cursor.fetchone()
 
 
 @connection_handler.connection_handler
-def add_to_database(cursor: RealDictCursor, login, hashed_password):
+def add_new_private_board(cursor: RealDictCursor, board_title, user_id):
     cursor.execute("""
-        INSERT INTO users(username, password)
-        values(%(login)s, %(password)s)      
+        INSERT INTO boards (title, "User") 
+        VALUES (%(title)s, %(user_id)s);
+        SELECT b.id as "board id"
+        FROM boards b
+        ORDER BY b.id DESC
+        LIMIT 1;
     """, {
-        "login" : f"{login}",
-        "password" : f"{hashed_password}"
+        "title": f"{board_title}",
+        "user_id": f"{user_id}"
+    })
+    return cursor.fetchone()
+
+
+@connection_handler.connection_handler
+def del_board(cursor: RealDictCursor, board_id):
+    cursor.execute("""
+        DELETE
+        FROM boards
+        WHERE boards.id = %(board_id)s
+    """, {"board_id" : f"{board_id}"})
+
+
+@connection_handler.connection_handler
+def edit_board_title(cursor: RealDictCursor, board_id, board_title):
+    cursor.execute("""
+        UPDATE boards
+        SET title = %(new_title)s
+        WHERE id = %(board_id)s
+    """, {
+        "new_title": f"{board_title}",
+        "board_id": f"{board_id}"
     })

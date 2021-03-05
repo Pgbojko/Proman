@@ -18,10 +18,12 @@ const keys = {
 
 
 const boardContainer = document.querySelector(".board-container");
-const boardTitle = document.querySelector(".board-title");
-const columnContainer = document.querySelector(".column-container");
+let columnContainer;
+let boardTitle;
 
 
 let boardId;
 let boardData;
 let draggedElement;
+
+let clickNum = 0;

@@ -1,0 +1,178 @@
+* {
+    color: black;
+    font-family: "Times New Roman";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+    border: none;
+    z-index: 1;
+}
+
+header {
+    width: 100%;
+    height: 12rem;
+    background-color: black;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.title-authors {
+    width: 50%;
+    min-width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-authors h1 {
+    font-size: 6rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    color: white;
+    padding: 0;
+    margin: 0 0 0 3rem;
+    text-align: left;
+}
+
+.title-authors h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: white;
+    padding: 0;
+    margin: 0 0 0 3rem;
+}
+
+.sign-up-in-out {
+    width: 50%;
+    min-width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+}
+
+.sign-up-in-out button {
+    width: 25%;
+    min-width: 150px;
+    height: 3rem;
+    padding: 0.5rem;
+    margin: 1rem auto;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.sign-in {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}
+
+.sign-out {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}
+
+.sign-up {
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+}
+
+.blur-background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    z-index: 9;
+}
+
+.sign-up-in-out-modal {
+    width: 40%;
+    min-width: 300px;
+    height: 400px;
+    background-color: #e0dede;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    border: #888888 solid 3px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.sign-in-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 92%;
+    margin: 1rem 0;
+    padding: 1.5rem 4rem;
+    border-right: black solid 1px;
+}
+
+.sign-in-container p {
+    font-size: 2.3rem;
+    font-weight: 600;
+}
+
+.sign-in-container label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+}
+
+.sign-in-container button {
+    height: 2rem;
+    width: 6rem;
+    margin: 1.5rem 0;
+    border: #0a53be solid 1px;
+    border-radius: 5px;
+    background-color: #bebebe;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.sign-up-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    margin: 0;
+    padding: 1.5rem 4rem;
+}
+
+.sign-up-container p {
+    font-size: 2.3rem;
+    font-weight: 600;
+}
+
+.sign-up-container label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+}
+
+.sign-up-container button {
+    height: 2rem;
+    width: 6rem;
+    margin: 1.5rem 0;
+    border: #0a53be solid 1px;
+    border-radius: 5px;
+    background-color: #bebebe;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.hidden {
+    display: none;
+}

@@ -27,8 +27,7 @@ function columnHeaderHTMLElement (column) {
 
 
 function cardContainerHTMLElement (column) {
-    return `<div class="card-container" data-column-id="${column[keys.columnId]}">
-            </div>`
+    return `<div class="card-container" data-column-id="${column[keys.columnId]}"></div>`
 }
 
 function addCardToColumnHTMLElement (card) {
@@ -55,3 +54,31 @@ function addCardBtnHTMLElement () {
 }
 
 
+function boardContainerElement (boardId) {
+    return `<section class="board-container" data-baord-id=${boardId}>
+        <h1 class="board-title"></h1>
+        <div class="column-container"></div>
+    </section>`
+}
+
+
+function newPublicBoardElement () {
+    return `<div class="new-board-block">
+                <input class="new-title-input public-board-input" value="board title" minlength="1" maxlength="20">
+            </div>`
+}
+
+
+function newPrivateBoardElement () {
+    return `<div class="new-board-block">
+                <input class="new-title-input private-board-input" value="board title" minlength="1" maxlength="20">
+            </div>`
+}
+
+
+function boardTitleElement (boardId, boardTitle) {
+    return `<h2 class="board-block-title" data-board-id="${boardId}">${boardTitle}</h2>
+            <button type="button" class="del-board-btn" data-board-id="${boardId}" draggable="false">
+                <img alt="del-board-btn-img" class="del-board-btn-img" data-board-id="${boardId}" src="/static/images/delete-btn.png" draggable="false">
+            </button>`
+}

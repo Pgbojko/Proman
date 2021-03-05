@@ -2,30 +2,38 @@
 
 
 function init () {
-    boardId = boardContainer.dataset.baordId;
-    getBoardData();
+    const boardListContainer = document.querySelector(".board-list-container");
+    boardListContainer.classList.add("hidden");
+    boardListContainer.insertAdjacentHTML("afterend", boardContainerElement(boardId));
+    boardId = document.querySelector(".board-container").dataset.baordId;
+
+    getBoardData(boardId);
 }
 
 
 const loadBoard = function (boardObject) {
+    boardTitle = document.querySelector(".board-title");
     boardData = boardObject
-    boardTitle.textContent = boardObject[keys.boardTitle];
-    createColumns(boardObject[keys.columns]);
+    boardTitle.textContent = boardData[keys.boardTitle];
+    createColumns(boardData[keys.columns]);
     listenersHandler()
 }
 
 
 const createColumns = function (columnsList) {
     addColBtn()
-    addColumns(columnsList);
-    addColumnHeader(columnsList, 0);
-    addCardContainer(columnsList, 0);
-    addCardsToColumn(columnsList);
-    addNewCardBtn()
+    if (columnsList.length > 0) {
+        addColumns(columnsList);
+        addColumnHeader(columnsList, 0);
+        addCardContainer(columnsList, 0);
+        addCardsToColumn(columnsList);
+        addNewCardBtn()
+    }
 }
 
 
 const addColBtn = function () {
+    columnContainer = document.querySelector(".column-container");
     columnContainer.insertAdjacentHTML("afterbegin", addColumnHTMLElement);
 }
 
@@ -46,6 +54,7 @@ const addColumnHeader = function (columnList, firstIndex) {
     const columnEls = document.querySelectorAll(".column");
 
     columnList.forEach(column => {
+        // let headerEl = columnHeaderHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterbegin", columnHeaderHTMLElement(column));
         firstIndex++;
     })
@@ -54,6 +63,7 @@ const addColumnHeader = function (columnList, firstIndex) {
 const addCardContainer = function (columnsList, firstIndex) {
     const columnEls = document.querySelectorAll(".column-header");
     columnsList.forEach(column => {
+        // let cardContainer = cardContainerHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterend", cardContainerHTMLElement(column));
         firstIndex++;
     })
@@ -90,4 +100,4 @@ const hideAddColModal = function (modalEl) {
 }
 
 
-init()
+// init()

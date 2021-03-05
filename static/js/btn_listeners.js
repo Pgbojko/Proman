@@ -1,17 +1,16 @@
 "user strict"
 
+
 const listenersHandler = function () {
     setClickListeners();
     setDblClickListener();
     setKeyboardListener();
     dragAndDropHandler();
-    // setMouseOverSlots();
-    // setMouseOutSlots();
 }
 
 const setClickListeners = function () {
-    const colContainer = document.querySelector(".column-container");
-    colContainer.addEventListener('click', event => {
+    const container = document.querySelector(".board-container");
+    container.addEventListener('click', event => {
         if (event.target.classList.contains("del-col-btn-img")) {
             const columnId = event.target.dataset.columnId;
             delColFromDB(columnId);
@@ -28,10 +27,22 @@ const setClickListeners = function () {
         } else if (event.target.classList.contains("del-card-btn-img")) {
             const cardId = event.target.dataset.cardId;
             delCardFromDb(cardId);
+        } else if (event.target.classList.contains("board-title")) {
+            const boardListContainer = document.querySelector(".board-list-container");
+            boardListContainer.classList.remove("hidden");
+            container.remove()
         } else if (!event.target.classList.contains("new-title-input")) {
             removeTitleInputField();
         }
     })
+}
+
+
+const showHideSignInModal = function () {
+    modalEl = document.querySelector(".sign-up-in-out-modal");
+    blurEl = document.querySelector(".blur-background");
+    modalEl.classList.toggle("hidden");
+    blurEl.classList.toggle("hidden");
 }
 
 
@@ -55,7 +66,7 @@ const setKeyboardListener = function () {
             if (event.target.classList.contains("col-input")) {
                 sendNewColData();
             } else if (event.target.classList.contains("card-input")) {
-                addNewCard()
+                addNewCard();
             } else {
                 updateTitleInDB(event.target);
                 removeTitleInputField();
@@ -90,32 +101,10 @@ const removeTitleInputField = function () {
         }
 }
 
-// const setMouseOverSlots = function () {
-//     const colContainer = document.querySelector(".column-container");
-//     colContainer.addEventListener('mouseover', event => {
-//         if (event.target.classList.contains("card-slot")) {
-//             event.target.classList.add("slot-highlighted");
-//             event.target.classList.remove("card-slot");
-//         }
-//     })
-// }
-//
-//
-// const setMouseOutSlots = function () {
-//     const colContainer = document.querySelector(".column-container");
-//     colContainer.addEventListener('mouseout', event => {
-//         if (event.target.classList.contains("slot-highlighted")) {
-//             event.target.classList.remove("slot-highlighted");
-//             event.target.classList.add("card-slot");
-//         }
-//     })
-// }
-
 
 const dragAndDropHandler = function () {
     const colContainer = document.querySelector(".column-container");
     setDragStartListeners(colContainer);
-    // setDragEndListener(colContainer);
     setDragEnterListener(colContainer);
     setDragOverListener(colContainer);
     setDragLeaveListener(colContainer);
@@ -129,18 +118,9 @@ const setDragStartListeners = function (btnEl) {
     })
 }
 
-// const setDragEndListener = function (btnEl) {
-//     btnEl.addEventListener('dragend', event => {
-//     })
-// }
-
 const setDragEnterListener = function (btnEl) {
     btnEl.addEventListener('dragenter', event => {
         event.preventDefault();
-        if (event.target.classList.contains("card-slot")) {
-            event.target.classList.add("slot-highlighted");
-            event.target.classList.remove("card-slot");
-        }
     })
 }
 
@@ -171,5 +151,3 @@ const setDropListener = function (btnEl) {
         }
     })
 }
-
-
