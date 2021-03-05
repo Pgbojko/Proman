@@ -5,7 +5,7 @@ from psycopg2.extras import RealDictCursor
 @connection_handler.connection_handler
 def public_boards(cursor: RealDictCursor):
     query = """
-    SELECT b.id as "board_id", b.title as "board_title", b."User" as "user_id"
+    SELECT b.id as "board id", b.title as "board title", b."User" as "user id"
     FROM boards b
     WHERE "User" is null 
     ORDER BY id
@@ -17,7 +17,7 @@ def public_boards(cursor: RealDictCursor):
 @connection_handler.connection_handler
 def private_boards(cursor: RealDictCursor, user_id):
     query = """
-    SELECT b.id as "board_id", b.title as "board_title", b."User" as "user_id"
+    SELECT b.id as "board id", b.title as "board title", b."User" as "user id"
     FROM boards b
     WHERE "User" = %(user_id)s
     ORDER BY id
@@ -74,7 +74,7 @@ def add_new_column(cursor: RealDictCursor, column_name):
 @connection_handler.connection_handler
 def get_col_ids_by_board_id(cursor: RealDictCursor, board_id):
     cursor.execute("""
-        SELECT *
+        SELECT board_id as "board id", column_id as "column id"
         FROM board_columns bc
         WHERE bc.board_id = %(board_id)s;
     """, {"board_id": f"{board_id}"})
@@ -182,7 +182,8 @@ def update_col_name(cursor: RealDictCursor, col_id, col_title):
 @connection_handler.connection_handler
 def get_user(cursor: RealDictCursor, login):
     cursor.execute("""
-        SELECT * FROM "users"
+        SELECT user_id as "user id", username, password
+        FROM "users" u
         WHERE username = %(login)s
         """, {
         "login": f"{login}"

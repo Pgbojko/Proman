@@ -16,9 +16,9 @@
     <h1 class="board-list-title">Public boards:</h1>
     <section class="public-boards grid-container">
         {% for board in public_boards %}
-            <div class="board-block" data-board-id="{{ board["board_id"] }}">
-                <h2 class="board-block-title" data-board-id="{{ board["board_id"] }}">{{ board["board_title"] }}</h2>
-                <button type="button" class="del-board-btn" data-board-id="{{ board["board_id"] }}" draggable="false">
+            <div class="board-block" data-board-id="{{ board["board id"] }}">
+                <h2 class="board-block-title" data-board-id="{{ board["board id"] }}">{{ board["board title"] }}</h2>
+                <button type="button" class="del-board-btn" data-board-id="{{ board["board id"] }}" draggable="false">
                     <img alt="del-col-btn-img" class="del-board-btn-img" data-column-id="${column[keys.columnId]}" src="/static/images/delete-btn.png" draggable="false">
                 </button>
             </div>
@@ -33,10 +33,10 @@
         <h1 class="board-list-title">Private boards:</h1>
         <section class="private-boards grid-container" data-user-id="{{ user_id }}">
             {% for board in private_boards %}
-                <div class="board-block" data-board-id="{{ board["board_id"] }}">
-                    <h1 class="board-block-title" data-board-id="{{ board["board_id"] }}">{{ board["board_title"] }}</h1>
-                    <button type="button" class="del-board-btn" data-board-id="{{ board["board_id"] }}" draggable="false">
-                        <img alt="del-board-btn-img" class="del-board-btn-img" data-board-id="{{ board["board_id"] }}" src="/static/images/delete-btn.png" draggable="false">
+                <div class="board-block" data-board-id="{{ board["board id"] }}">
+                    <h1 class="board-block-title" data-board-id="{{ board["board id"] }}">{{ board["board title"] }}</h1>
+                    <button type="button" class="del-board-btn" data-board-id="{{ board["board id"] }}" draggable="false">
+                        <img alt="del-board-btn-img" class="del-board-btn-img" data-board-id="{{ board["board id"] }}" src="/static/images/delete-btn.png" draggable="false">
                     </button>
                 </div>
             {% endfor %}

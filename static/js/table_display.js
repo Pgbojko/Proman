@@ -13,21 +13,21 @@ function init () {
 
 const loadBoard = function (boardObject) {
     boardTitle = document.querySelector(".board-title");
-    boardData = boardObject
+    boardData = boardObject;
     boardTitle.textContent = boardData[keys.boardTitle];
     createColumns(boardData[keys.columns]);
-    listenersHandler()
+    listenersHandler();
 }
 
 
 const createColumns = function (columnsList) {
-    addColBtn()
+    addColBtn();
     if (columnsList.length > 0) {
         addColumns(columnsList);
         addColumnHeader(columnsList, 0);
         addCardContainer(columnsList, 0);
         addCardsToColumn(columnsList);
-        addNewCardBtn()
+        addNewCardBtn();
     }
 }
 
@@ -54,16 +54,15 @@ const addColumnHeader = function (columnList, firstIndex) {
     const columnEls = document.querySelectorAll(".column");
 
     columnList.forEach(column => {
-        // let headerEl = columnHeaderHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterbegin", columnHeaderHTMLElement(column));
         firstIndex++;
     })
 }
 
+
 const addCardContainer = function (columnsList, firstIndex) {
     const columnEls = document.querySelectorAll(".column-header");
     columnsList.forEach(column => {
-        // let cardContainer = cardContainerHTML(column)
         columnEls[firstIndex].insertAdjacentHTML("afterend", cardContainerHTMLElement(column));
         firstIndex++;
     })
@@ -78,7 +77,7 @@ const addCardsToColumn = function (columnList) {
     columnList.forEach(column => {
         cardEls = "";
         column[keys.cards].forEach(function (card) {
-            cardEls += addCardToColumnHTMLElement(card)
+            cardEls += addCardToColumnHTMLElement(card);
         })
         cardContainers[i].insertAdjacentHTML("beforeend", cardEls);
         i++;
@@ -89,7 +88,7 @@ const addCardsToColumn = function (columnList) {
 const addNewCardBtn = function () {
     const columns = document.querySelector(".column");
 
-    let cardBtnEl = addCardBtnHTMLElement()
+    let cardBtnEl = addCardBtnHTMLElement();
 
     columns.insertAdjacentHTML("beforeend", cardBtnEl);
 }
@@ -98,6 +97,3 @@ const addNewCardBtn = function () {
 const hideAddColModal = function (modalEl) {
     modalEl.classList.add("hidden");
 }
-
-
-// init()

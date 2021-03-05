@@ -4,6 +4,7 @@ const keys = {
     "operationStatus" : "status",
     "message" : "message",
     "boardTitle" : "board title",
+    "boardId" : "board id",
     "columns" : "columns",
     "columnName" : "column name",
     "columnId" : "column id",
@@ -16,8 +17,6 @@ const keys = {
     "escKey": "Escape",
 }
 
-
-const boardContainer = document.querySelector(".board-container");
 let columnContainer;
 let boardTitle;
 

@@ -15,7 +15,7 @@ const setHeaderListener = function () {
         } else if (event.target.classList.contains("blur-background")) {
             showHideSignInModal();
         } else if (event.target.classList.contains("del-board-btn") || event.target.classList.contains("del-board-btn-img")) {
-            const boardId =  event.target.parentElement.dataset.boardId
+            const boardId =  event.target.parentElement.dataset.boardId;
             delBoard(boardId);
         }
     })
@@ -24,39 +24,58 @@ const setHeaderListener = function () {
 
 const setBoardKeyboardListener = function () {
     document.addEventListener('keyup', event => {
-        if (event.key === keys.enterKey) {
+        if (event.key === keys.enterKey && event.target.value.length > 0) {
             if (event.target.classList.contains("private-board-input")) {
-                const userId = document.querySelector(".private-boards").dataset.userId;
-                addNewPrivateBoardToDB(userId);
-                let newDiv = document.querySelector(".new-board-block");
-                newDiv.classList.remove("new-board-block");
-                newDiv.classList.add("board-block");
+                handlePrivateBoardInput();
             } else if (event.target.classList.contains("public-board-input")) {
-                addNewPublicBoradToDB();
-                let newDiv = document.querySelector(".new-board-block");
-                newDiv.classList.remove("new-board-block");
-                newDiv.classList.add("board-block");
+                handlePublicBoardInput();
             } else if (event.target.classList.contains("new-title-input")) {
-                console.log("edit title");
-                boardId = document.querySelector(".new-title-input").parentElement.dataset.boardId;
-                editBoardTitle(boardId)
-                let inputEl = document.querySelector(".new-title-input");
-                let titleEl = inputEl.parentElement.querySelector(".hidden");
-                titleEl.textContent = inputEl.value;
-                titleEl.classList.remove("hidden");
-                inputEl.remove();
+                handleNewTitleInput();
             }
         } else if (event.key === keys.escKey) {
-            let newBoard = document.querySelector(".new-board-block");
-            let newTitleInput = document.querySelector(".new-title-input");
-            if (newBoard) {
-                newBoard.remove();
-                document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.remove("hidden"))
-            } else if (newTitleInput) {
-                removeTitleInputField();
-            }
+            onEscBtn();
         }
     })
+}
+
+
+const handlePrivateBoardInput = function () {
+    const userId = document.querySelector(".private-boards").dataset.userId;
+    addNewPrivateBoardToDB(userId);
+    let newDiv = document.querySelector(".new-board-block");
+    newDiv.classList.remove("new-board-block");
+    newDiv.classList.add("board-block");
+}
+
+
+const handlePublicBoardInput = function () {
+    addNewPublicBoradToDB();
+    let newDiv = document.querySelector(".new-board-block");
+    newDiv.classList.remove("new-board-block");
+    newDiv.classList.add("board-block");
+}
+
+
+const handleNewTitleInput = function () {
+    boardId = document.querySelector(".new-title-input").parentElement.dataset.boardId;
+    editBoardTitle(boardId);
+    let inputEl = document.querySelector(".new-title-input");
+    let titleEl = inputEl.parentElement.querySelector(".hidden");
+    titleEl.textContent = inputEl.value;
+    titleEl.classList.remove("hidden");
+    inputEl.remove();
+}
+
+
+const onEscBtn = function () {
+    let newBoard = document.querySelector(".new-board-block");
+    let newTitleInput = document.querySelector(".new-title-input");
+    if (newBoard) {
+        newBoard.remove();
+        document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.remove("hidden"));
+    } else if (newTitleInput) {
+        removeTitleInputField();
+    }
 }
 
 
@@ -100,14 +119,13 @@ const addPublicBoardBtnListener = function () {
 
 const createNewPublicBoard = function () {
     document.querySelector(".public-board-btn").insertAdjacentHTML("beforebegin", newPublicBoardElement());
-    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.add("hidden"))
-    console.log("public");
+    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.add("hidden"));
 }
+
 
 const createNewPrivBoard = function () {
     document.querySelector(".private-board-btn").insertAdjacentHTML("beforebegin", newPrivateBoardElement());
-    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.add("hidden"))
-    console.log("private");
+    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.add("hidden"));
 }
 
 

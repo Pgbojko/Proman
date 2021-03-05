@@ -6,11 +6,10 @@
         <h2>Katarzyna Corominas, Piotr Bojko, Kamil Trąba </h2>
     </div>
     <div class="sign-up-in-out">
-        {% if session.user_id %}
+        {% if session["user id"] %}
             <form action="{{ url_for('logout') }}" method="get">
                 <button class="sign-out" type="submit" name="logout" style="border:black solid 1px">Logout</button>
             </form>
-{#            <button class="sign-in-out hidden">Sign out</button>#}
         {% else %}
             <button class="sign-in">Sign in</button>
             <button class="sign-up">Sign up</button>
@@ -52,5 +51,3 @@
 
 
 </section>
-
-{#<script type="text/javascript" src="/static/js/header_listeners.js"></script>#}

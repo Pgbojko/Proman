@@ -1,14 +1,5 @@
 import data_manager
-from flask import render_template
-
-BOARD_TITLE = "board title"
-COL_NAME = "column name"
-COLS = "columns"
-CARDS = "cards"
-COL_ID = "column id"
-BOARD_ID = "board id"
-CARD_ID = "card id"
-
+from variables import *
 
 def get_board_dict(board_id):
     board = {}
@@ -28,7 +19,7 @@ def get_cards_for_col(board_id, col_dict):
 def add_new_col_to_db(board_id, col_name):
     if existing_col_names(col_name) is None:
         data_manager.add_new_column(col_name)
-    col_id = data_manager.get_col_id_by_name(col_name)["id"]
+    col_id = data_manager.get_col_id_by_name(col_name)[ID]
 
     if not existing_board_col_connection(board_id, col_id):
         data_manager.link_col_to_board(board_id, col_id)
@@ -43,7 +34,7 @@ def existing_col_names(col_name):
 
 def existing_board_col_connection(board_id, col_id):
     for el in data_manager.get_col_ids_by_board_id(board_id):
-        if el["column_id"] == col_id:
+        if el[COL_ID] == col_id:
             return True
     return False
 
@@ -57,8 +48,7 @@ def delete_col_and_col_references(col_id):
 
 
 def add_new_card_to_db(board_id, card_title, column_id):
-    data = data_manager.add_new_card(board_id, card_title, column_id)
-    return data
+    return data_manager.add_new_card(board_id, card_title, column_id)
 
 
 def delete_card_from_db(card_id):
@@ -78,9 +68,9 @@ def update_title_in_DB(title, id, is_column):
 
 def add_new_board_to_db(board_title, user_id=None):
     if user_id is None:
-        new_board_id = data_manager.add_new_public_board(board_title)["board id"]
+        new_board_id = data_manager.add_new_public_board(board_title)[BOARD_ID]
     else:
-        new_board_id = data_manager.add_new_private_board(board_title, user_id)["board id"]
+        new_board_id = data_manager.add_new_private_board(board_title, user_id)[BOARD_ID]
 
     for col_id in range(1, 5):
         data_manager.link_col_to_board(new_board_id, col_id)

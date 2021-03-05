@@ -20,9 +20,9 @@ const setClickListeners = function () {
         } else if (event.target.classList.contains("add-col-btn-img")) {
             const modalEl = document.querySelector(".new-col-modal");
             modalEl.classList.toggle("hidden");
-        } else if (event.target.classList.contains("submit-col-name")) {
+        } else if (event.target.classList.contains("submit-col-name") && event.target.value.length) {
             sendNewColData();
-        } else if (event.target.classList.contains("submit-card-name")) {
+        } else if (event.target.classList.contains("submit-card-name") && event.target.value.length) {
             addNewCard();
         } else if (event.target.classList.contains("del-card-btn-img")) {
             const cardId = event.target.dataset.cardId;
@@ -30,7 +30,7 @@ const setClickListeners = function () {
         } else if (event.target.classList.contains("board-title")) {
             const boardListContainer = document.querySelector(".board-list-container");
             boardListContainer.classList.remove("hidden");
-            container.remove()
+            container.remove();
         } else if (!event.target.classList.contains("new-title-input")) {
             removeTitleInputField();
         }
@@ -59,10 +59,11 @@ const setDblClickListener = function () {
     })
 }
 
+
 const setKeyboardListener = function () {
     const colContainer = document.querySelector(".column-container");
     colContainer.addEventListener('keyup', event => {
-        if (event.key === keys.enterKey) {
+        if (event.key === keys.enterKey && event.target.value.length > 0) {
             if (event.target.classList.contains("col-input")) {
                 sendNewColData();
             } else if (event.target.classList.contains("card-input")) {
@@ -81,7 +82,7 @@ const setKeyboardListener = function () {
 const updateTitleInDB = function (element) {
     let newTitle = element.value;
     let titleEl = document.querySelector(".new-title-input").parentElement.querySelector(".hidden");
-    titleEl.textContent = newTitle
+    titleEl.textContent = newTitle;
 
     if (titleEl.classList.contains("card-title")) {
         let id = document.querySelector(".new-title-input").parentElement.dataset.cardId;
@@ -126,13 +127,13 @@ const setDragEnterListener = function (btnEl) {
 
 const setDragOverListener = function (btnEl) {
     btnEl.addEventListener('dragover', event => {
-        event.preventDefault()
+        event.preventDefault();
     })
 }
 
 const setDragLeaveListener = function (btnEl) {
     btnEl.addEventListener('dragleave', event => {
-        event.preventDefault()
+        event.preventDefault();
         if (event.target.classList.contains("slot-highlighted")) {
             event.target.classList.remove("slot-highlighted");
             event.target.classList.add("card-slot");

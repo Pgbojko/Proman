@@ -20,23 +20,23 @@ const sendNewColData = function () {
                 "Content-Type": "application/json"
                 },
             body: JSON.stringify({
-                "board_id": boardId,
-                "column_name": NewColName.value
+                "board id": boardId,
+                "column name": NewColName.value
                 })
         };
     fetch('/add-new-column', dataToSend)
      .then( response => response.json())
         .then(data => {
-            const addCardBtn = document.querySelector(".add-card-div")
+            const addCardBtn = document.querySelector(".add-card-div");
             if (data[keys.operationStatus]) {
-                const columnELs = document.querySelectorAll(".column")
+                const columnELs = document.querySelectorAll(".column");
                 addColumns(data[keys.columns]);
                 addColumnHeader(data[keys.columns], columnELs.length);
-                addCardContainer(data[keys.columns], columnELs.length)
+                addCardContainer(data[keys.columns], columnELs.length);
             }
-            console.log(data[keys.message])
+            console.log(data[keys.message]);
             if (!document.querySelector(".column").contains(addCardBtn)) {
-                    addNewCardBtn()
+                    addNewCardBtn();
                 }
         });
     hideAddColModal(newColumnModal);
@@ -93,7 +93,7 @@ const addNewCard = function () {
             if (data[keys.operationStatus]) {
                 cardContainer.insertAdjacentHTML("beforeend", addCardToColumnHTMLElement(data));
             }
-            console.log(data[keys.message])
+            console.log(data[keys.message]);
         })
     hideAddColModal(modalEl);
 }
@@ -117,12 +117,10 @@ const delCardFromDb = function (cardId) {
                 cardsList.forEach(card => {
                     if (card.querySelector("button").dataset.cardId === cardId) {
                         card.remove();
-                        // document.querySelector(".card-container").lastElementChild.remove();
-
                     }
                 })
             }
-            console.log(data[keys.message])
+            console.log(data[keys.message]);
         })
 }
 
@@ -138,7 +136,7 @@ const updateCardStatus = function (cardId, columnId) {
             "column id": columnId
         })
     }
-    fetch("/update-card-status", dataToSend)
+    fetch("/update-card-status", dataToSend);
 }
 
 
@@ -171,13 +169,7 @@ const addNewPublicBoradToDB = function () {
     }
     fetch("/new-public-board", dataToSend)
         .then(response => response.json())
-        .then(data => injectNewBoardData(data, newBoardTitleEl))
-            // let newBoardId = data["board id"];
-            // let newBoardTitle = data["board title"];
-            // newBoardTitleEl.parentElement.dataset.BoardId = newBoardId;
-            // newBoardTitleEl.parentElement.insertAdjacentHTML("afterbegin", boardTitleElement(newBoardId, newBoardTitle))
-            // document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.remove("hidden"))
-            // newBoardTitleEl.remove()
+        .then(data => injectNewBoardData(data, newBoardTitleEl));
 }
 
 const addNewPrivateBoardToDB = function (userId) {
@@ -194,16 +186,16 @@ const addNewPrivateBoardToDB = function (userId) {
     }
     fetch("/new-private-board", dataToSend)
         .then(response => response.json())
-        .then(data => injectNewBoardData(data, newBoardTitleEl))
+        .then(data => injectNewBoardData(data, newBoardTitleEl));
 }
 
 const injectNewBoardData = function (data, newBoardTitleEl) {
     let newBoardId = data["board id"];
     let newBoardTitle = data["board title"];
     newBoardTitleEl.parentElement.dataset.BoardId = newBoardId;
-    newBoardTitleEl.parentElement.insertAdjacentHTML("afterbegin", boardTitleElement(newBoardId, newBoardTitle))
-    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.remove("hidden"))
-    newBoardTitleEl.remove()
+    newBoardTitleEl.parentElement.insertAdjacentHTML("afterbegin", boardTitleElement(newBoardId, newBoardTitle));
+    document.querySelectorAll(".add-new-board-btn").forEach(btn => btn.classList.remove("hidden"));
+    newBoardTitleEl.remove();
 }
 
 
@@ -217,11 +209,10 @@ const delBoard = function (boardId) {
             "board id" : boardId
         })
     }
-    fetch(`/${boardId}/delete`, dataToSend)
+    fetch(`/${boardId}/delete`, dataToSend);
 
     let boards = document.querySelectorAll(".board-block")
     boards.forEach(board => {
-        console.log(board.dataset.boardId === boardId || board.dataset.BoardId === boardId)
         if (board.dataset.boardId === boardId || board.dataset.BoardId === boardId) {
             board.remove();
         }
@@ -241,18 +232,4 @@ const editBoardTitle = function (boardId) {
         })
     }
     fetch(`/${boardId}/edit-title`, dataToSend);
-
 }
-
-// const displayBoard = function (boardId) {
-//     let dataToSend = {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//             "board id": boardId
-//         })
-//     }
-//     fetch(`/board/${boardId}`, dataToSend)
-// }
